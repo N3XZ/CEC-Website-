@@ -1586,6 +1586,12 @@ document.getElementById('r4-timeline').innerHTML = r4timeline.map(t => `
     <div class="t-body">${t[2]}</div>
   </div>
 `).join('');
+document.getElementById('r5-timeline').innerHTML = r5timeline.map(t => `
+  <div class="t-item ${t[0]}">
+    <div class="t-time">${t[1]}</div>
+    <div class="t-body">${t[2]}</div>
+  </div>
+`).join('');
 // ---------------- NAV ----------------
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
