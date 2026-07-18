@@ -940,9 +940,10 @@
     </div>
 
     <div class="nav-section-label">Season</div>
-    <div class="nav-item active" data-page="overview"><span class="num">—</span> Overview</div>
+    <div class="nav-item active" data-page="overview"><span class="num">—</span> Home</div>
     <div class="nav-item" data-page="teams"><span class="num">—</span> Teams</div>
     <div class="nav-item" data-page="news"><span class="num">—</span> News</div>
+	<div class="nav-item" data-page="archives"><span class="num">-</span> Archives</div>
 
     <div class="nav-section-label">Rounds</div>
     <div class="nav-item" data-page="r1"><span class="num">01</span> Daytona <span class="status-pill done">Done</span></div>
@@ -982,13 +983,6 @@
             <tbody id="standings-body"></tbody>
           </table>
         </div>
-
-        <h2 class="block-title" data-reveal>The State of Play</h2>
-        <div class="feature-panel" data-reveal>
-          <div class="fp-badge"><span class="dot"></span>Race Control Bulletin</div>
-          <div class="fp-headline">Five rounds into the championship, identities are finally beginning to emerge, but questions still remain about who can sustain their form over the long season ahead.</div>
-          <p>Engstler entered Sebring as a comfortable points leader built on discipline and consistency — they left it tied for 4th after their worst result of the year. Walkenhorst, who looked like a nice trend-line story at best entering Round 3, is now the outright championship leader after the wildest individual race day of anyone in the field. That's a full changing-of-the-guard, and it happened in a single round.</p>
-        </div>
       </div>
     </section>
 
@@ -1023,7 +1017,26 @@
         </div>
     </section>
 
-    <!-- ===== ROUND 1 ===== -->
+    <!-- ===== ARCHIVES ===== -->
+	<section class="page" id="archives">
+		<div class="page-hero">
+		<div class="eyebrow">Past Seasons</div>
+		<h1>SEASON ARCHIVES</h1>
+		<p class="sub">Our History!</p>
+	</div>
+	<div class="archive-controls">
+		<label for="seasonSelect">
+		Select Season:
+		</label>
+		<select id="seasonSelect">
+			<option value="season2">Season 2</option>
+			<option value="season3">Season 3</option>
+		</select>
+	</div>
+		<div id="archiveResults"></div>
+	</section>
+	
+	<!-- ===== ROUND 1 ===== -->
     <section class="page" id="r1">
       <div class="page-hero">
         <div class="eyebrow">Round 1 · Complete</div>
@@ -1508,6 +1521,38 @@ const r5timeline = [
   ["","1:20","The #36 Walkenhorst Aston Martin continues to control the race, with the #23 AlphaTauri Ferrari remaining the closest challenger. A victory for Walkenhorst would extend their advantage heading toward Detroit, while rivals desperately need a strong finish to prevent the championship from slipping away."],
   ["cool","Finish","A brilliant strategic call and a mistake-free drive deliver the #36 Aston Martin another major victory and extend their championship momentum heading into Detroit."],
 ];
+
+const archiveData = {
+	season2: [
+		{
+			round: "Round 1",
+			name: "Daytona 24 Hours",
+			winner: "Engstler #8"
+		},	
+		
+		{
+			round: "Round 2",
+			name: "Laguna Seca 6 Hours",
+			winner: "AlphaTauri #23"
+		},
+		
+		{
+			round: "Round 3",
+			name: "Sebring 12 Hours",
+			winner: "Walkenhorst Motorsport #36"
+		}
+	],
+	
+	season3: [
+		{
+			round: "Round 1",
+			name: "Daytona 24 Hours",
+			winner: "TBD"
+		}
+	]
+};
+		
+
 // ---------------- RENDER HELPERS ----------------
 function fillTable(tbodyId, rows){
   const tbody = document.getElementById(tbodyId);
@@ -1569,6 +1614,28 @@ document.getElementById('r5-timeline').innerHTML = r5timeline.map(t => `
     <div class="t-body">${t[2]}</div>
   </div>
 `).join('');
+
+// ---------------- ARCHIVE SYSTEM ----------------
+const seasonSelect = document.getElementById("seasonSelect");
+const archiveResults = document.getElementById("archiveResults");
+function loadArchive(){
+	const selectedSeason = seasonSelect.value;
+	archiveResults.innerHTML = archiveData[selectedSeason].map(race => `
+		<div class="archive-card">
+			<h2>${race.round}</h2>
+			<h3>${race.name}</h3>
+			<p>Winner: ${race.winner}</p>
+		</div>
+	`).join("");
+}
+seasonSelect.addEventListener("change", loadArchive);
+loadArchive();
+
+
+
+
+
+
 // ---------------- NAV ----------------
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
